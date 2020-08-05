@@ -10,6 +10,8 @@ class ElementWrapper {
             let eventName = RegExp.$1.replace(/^[\s\S]/, s => s.toLowerCase());
             this.root.addEventListener(eventName, value);
         }
+        if(name === "className")
+            name = "class";
         this.root.setAttribute(name, value)
     }
 
@@ -52,6 +54,27 @@ export class Component {
     appendChild(vchild) {
         this.children.push(vchild);
     }
+
+    setState(state) {
+        let merge =(oldState, newState) => {
+            for (let p in newState) {
+                if (typeof newState[p] === "object") {
+                    if (typeof oldState[p] !== "object") {
+                        oldState[p] = {};
+                    }
+                    merge(oldState[p], newState[p]);
+
+                } else {
+                    oldState[p] = newState[p];
+                }
+            }
+        }
+        if (!this.state && state)
+            this.state = {};
+        merge(this.state, state);
+        console.log(this.state);
+    }
+
 }
 
 export let ToyReact = {
