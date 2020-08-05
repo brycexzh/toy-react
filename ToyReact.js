@@ -4,6 +4,12 @@ class ElementWrapper {
     }
 
     setAttribute(name, value) {
+        if(name.match(/^on([\s\S]+)$/)) {
+            //console.log(RegExp.$1);
+            //this.root.addEventListener(RegExp.$1.replace(/^[\s\S]/, s => s.toLowerCase()), value);
+            let eventName = RegExp.$1.replace(/^[\s\S]/, s => s.toLowerCase());
+            this.root.addEventListener(eventName, value);
+        }
         this.root.setAttribute(name, value)
     }
 
@@ -33,6 +39,7 @@ export class Component {
     }
 
     setAttribute(name, value) {
+
         this.props[name] = value;
         this[name] = value;
     }
@@ -51,9 +58,9 @@ export let ToyReact = {
     createElement(type, attributes, ...children) {
         let element;
         if (typeof type === "string")
-            element = new ElementWrapper(type);//?
+            element = new ElementWrapper(type);
         else
-            element = new type;//?
+            element = new type;
 
         for (let name in attributes) {
             //element[name] = attributes[name]; wrong!!!
