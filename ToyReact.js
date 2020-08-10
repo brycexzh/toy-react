@@ -9,7 +9,7 @@ class ElementWrapper {
             this.root.addEventListener(eventName, value);
         }
         if(name === "className")
-            name = "class";
+            this.root.setAttribute("class", value)
         this.root.setAttribute(name, value)
     }
 
